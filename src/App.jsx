@@ -1,16 +1,31 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import TaskList from "./components/TaskList";
 import AddTaskForm from "./components/AddTaskForm";
 
 function App(){
-  const [tasks,setTasks]=useState([
-    {id:1,text:"Learn React",done:false},
-    {id:2,text:"Push project to the Github",done:false},
-    {id:3,text:"Build a feature in react",done:false}
+  const [tasks,setTasks]=useState(()=>{
+    const saved=localStorage.getItem("tasks");
+    return saved?JSON.parse(saved):[{ id: 1, text: "Testing done", done: false },
+      {id:2,text:"Learn react",done:false},
+      {id:3,text:"Learn docker command and linux commands",done:false}
+    ]
+  }
 
-  ]);
- 
+  );
+  const [filter,setFilter]=useState("all");
 
+  useEffect(() => {                            
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]); 
+
+
+  let visibleTasks=tasks;
+  if (filter==="active"){
+    visibleTasks=tasks.filter((task)=>!task.done);
+  }
+  if(filter==="done"){
+    visibleTasks=tasks.filter((task)=>task.done);
+  }
 
     function toggleTask(id){
      setTasks(
@@ -33,8 +48,12 @@ function App(){
 
     <div>
       <h1>Taskflow</h1>
-      <AddTaskForm onAdd={addTask} />
-      <TaskList tasks={tasks} onToggle={toggleTask} onDelete={deleteTask}/>
+      <AddTaskForm onAdd={addTask}/>
+      <button onClick={()=>setFilter("all")}>All</button>
+      <button onClick={()=>setFilter("active")}>Active</button>
+      <button onClick={()=>setFilter("done")}>Done</button>
+     
+      <TaskList tasks={visibleTasks}  onToggle={toggleTask} onDelete={deleteTask}/>
       <p>{remaining} tasks remaining</p>
     </div>
   )
