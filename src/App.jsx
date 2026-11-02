@@ -9,6 +9,7 @@ function App(){
     {id:3,text:"Build a feature in react",done:false}
 
   ]);
+ 
 
 
     function toggleTask(id){
@@ -21,17 +22,20 @@ function App(){
       const newTask={id:Date.now(),text:text,done:false}
       setTasks([...tasks,newTask]);
     }
+
     function deleteTask(id){
       setTasks(
         tasks.filter((task)=>task.id!==id)
       )
     }
+    const remaining=tasks.filter((task)=>!task.done).length;
     return (
 
     <div>
       <h1>Taskflow</h1>
       <AddTaskForm onAdd={addTask} />
       <TaskList tasks={tasks} onToggle={toggleTask} onDelete={deleteTask}/>
+      <p>{remaining} tasks remaining</p>
     </div>
   )
 }
