@@ -1,13 +1,19 @@
-import { useState } from "react";
+import { useState,useReducer,useEffect } from "react";
 import TaskList from "./components/TaskList";
 import AddTaskForm from "./components/AddTaskForm";
-import useLocalStorage from "./hooks/useLocalStorage";
+//import useLocalStorage from "./hooks/useLocalStorage";
+import tasksReducer from "./tasksReducer";
 
 function App(){
-  const [tasks, setTasks] = useLocalStorage("tasks", [
-  { id: 1, text: "Testing done", done: false },
-  { id: 2, text: "Learn react", done: false },
-]);
+
+ const [tasks, dispatch] = useReducer(tasksReducer, [], () => {
+  const saved = localStorage.getItem("tasks");
+  return saved ? JSON.parse(saved) : [{ id: 1, text: "Testing done", done: false }];
+});
+
+useEffect(() => {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}, [tasks]);
 
   const [filter,setFilter]=useState("all");
  
@@ -20,20 +26,16 @@ function App(){
   }
 
     function toggleTask(id){
-     setTasks(
-      tasks.map((task)=> task.id===id?{...task, done:!task.done}:task
-     )
-     );
+       dispatch({type:"toggle",id});
     }
     function addTask(text){
       const newTask={id:Date.now(),text:text,done:false}
-      setTasks([...tasks,newTask]);
+      dispatch({type:"add",task:newTask})
+      
     }
 
     function deleteTask(id){
-      setTasks(
-        tasks.filter((task)=>task.id!==id)
-      )
+      dispatch({type:"delete",id})
     }
     const remaining=tasks.filter((task)=>!task.done).length;
     return (
