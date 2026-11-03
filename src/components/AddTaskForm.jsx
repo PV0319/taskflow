@@ -11,7 +11,6 @@ function AddTaskForm({onAdd}){
         }
          onAdd(text)
          setText("");
-         console.log(inputRef.current)
          inputRef.current.focus();
     }
 
