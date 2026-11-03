@@ -1,24 +1,16 @@
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import TaskList from "./components/TaskList";
 import AddTaskForm from "./components/AddTaskForm";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 function App(){
-  const [tasks,setTasks]=useState(()=>{
-    const saved=localStorage.getItem("tasks");
-    return saved?JSON.parse(saved):[{ id: 1, text: "Testing done", done: false },
-      {id:2,text:"Learn react",done:false},
-      {id:3,text:"Learn docker command and linux commands",done:false}
-    ]
-  }
+  const [tasks, setTasks] = useLocalStorage("tasks", [
+  { id: 1, text: "Testing done", done: false },
+  { id: 2, text: "Learn react", done: false },
+]);
 
-  );
   const [filter,setFilter]=useState("all");
-
-  useEffect(() => {                            
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]); 
-
-
+ 
   let visibleTasks=tasks;
   if (filter==="active"){
     visibleTasks=tasks.filter((task)=>!task.done);
