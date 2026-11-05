@@ -5,7 +5,7 @@ import { useTasks } from "./context/useTasks.js";
 
 function App(){
 
-const {tasks}=useTasks();
+const {tasks,clearCompleted}=useTasks();
   const [filter,setFilter]=useState("all");
  
   let visibleTasks=tasks;
@@ -26,6 +26,7 @@ const {tasks}=useTasks();
       <button onClick={()=>setFilter("all")}>All</button>
       <button onClick={()=>setFilter("active")}>Active</button>
       <button onClick={()=>setFilter("done")}>Done</button>
+      <button onClick={clearCompleted}>Clear Completed</button>
      
       <TaskList tasks={visibleTasks} />
       <p>{remaining} tasks remaining</p>

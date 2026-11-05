@@ -13,6 +13,10 @@ function tasksReducer(tasks,action){
         return [...tasks,action.task];
     }
     
+    if(action.type === "clear"){
+       return tasks.filter((task)=>!task.done)
+    }
+    
     return tasks;
 }
 

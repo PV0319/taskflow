@@ -26,8 +26,12 @@ export function TasksProvider({children}){
       dispatch({type:"delete",id})
     }
 
+    function clearCompleted(){
+      dispatch({type:"clear"})
+    }
+
     return (
-        <TasksContext.Provider value={{tasks,addTask,toggleTask,deleteTask}}>
+        <TasksContext.Provider value={{tasks,addTask,toggleTask,deleteTask,clearCompleted}}>
           {children}
         </TasksContext.Provider>
     )
