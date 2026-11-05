@@ -1,15 +1,17 @@
 import { useState , useRef} from "react";
+import { useTasks } from "../context/useTasks.js";
 
-function AddTaskForm({onAdd}){
+function AddTaskForm(){
     const [text,setText]=useState("");
     const inputRef=useRef(null)
+    const {addTask}=useTasks();
 
     function handleAdd(){
         if(text.trim()===""){
         console.log("Blocked:Empty input "); 
         return ;
         }
-         onAdd(text)
+         addTask(text)
          setText("");
          inputRef.current.focus();
     }

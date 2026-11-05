@@ -1,19 +1,21 @@
-function TaskItem({task,onToggle,onDelete}){
+import { useTasks } from "../context/useTasks.js"
+function TaskItem({task}){
+    const {toggleTask,deleteTask}=useTasks();
     return (
         <>
         <li 
         onClick={() => {
-            console.log("li-- button onclick")
-            onToggle(task.id)
+           // console.log("li-- button onclick")
+            toggleTask(task.id)
         }}
         style={{textDecoration:task.done?
         "line-through":"none", cursor:"pointer"}}>
             {task.text}
 
              <button onClick={(e)=>{
-                console.log("inner-- button onclick")
+               // console.log("inner-- button onclick")
                 e.stopPropagation();
-                onDelete(task.id);
+                deleteTask(task.id);
             }}
                 >Delete</button>
         </li>

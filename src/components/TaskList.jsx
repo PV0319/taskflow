@@ -1,10 +1,10 @@
 import TaskItem from "./TaskItem";
-function TaskList({tasks,onToggle,onDelete}){
+function TaskList({tasks}){
     
     return (
         <ul>
             {tasks.map((task)=>(
-            <TaskItem key={task.id} task={task} onToggle={onToggle} onDelete={onDelete}/>
+            <TaskItem key={task.id} task={task} />
             ))
         }
         </ul>
