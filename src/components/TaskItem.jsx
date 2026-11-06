@@ -1,4 +1,5 @@
 import { useTasks } from "../context/useTasks.js"
+import {Link} from "react-router-dom"
 function TaskItem({task}){
     const {toggleTask,deleteTask}=useTasks();
     return (
@@ -17,7 +18,9 @@ function TaskItem({task}){
                 e.stopPropagation();
                 deleteTask(task.id);
             }}
-                >Delete</button>
+             >Delete</button>
+             
+             <Link to={`tasks/${task.id}`} onClick={(e)=>e.stopPropagation()}>Details</Link>
         </li>
        
         </>
