@@ -17,6 +17,11 @@ function tasksReducer(tasks,action){
        return tasks.filter((task)=>!task.done)
     }
     
+    if(action.type ==="edit"){
+        return tasks.map((task)=>
+            task.id===action.id?{...task,text:action.text}:task
+        );
+    }
     return tasks;
 }
 
